@@ -178,11 +178,19 @@ def classify_repo(url: str, threshold: float = 0.4, top_k: int = 10, use_ensembl
         "meta": data["meta"]
     }
 
-if __name__ == "__main__":
-    # EXAMPLE:
-    test_url = "https://github.com/sustainlab-group/sustainbench"  
-    result = classify_repo(test_url, threshold=0.4, use_ensemble=True)
+def main(url: str):
+    result = classify_repo(url, threshold=0.4, use_ensemble=True)
+    predictions = {
+        "repository_name": result["repo"],
+        "repository_url": url,
+        "repository_owner": result["repo"].split("/")[0],
+        "sdg_predictions": {
+            name: float(f"{score:.3f}") for (name, score) in result["predictions"]
+        }
+    }
     print("Repository:", result["repo"])
     print("Predicted SDGs (name, score):")
     for name, sc in result["predictions"]:
         print(f"  - {name}: {sc:.3f}")
+    
+    return predictions
