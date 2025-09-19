@@ -147,7 +147,7 @@ def ensemble_scores(zs: np.ndarray, es: np.ndarray, alpha: float = 0.5) -> np.nd
     """
     return alpha * zs + (1 - alpha) * es
 
-def classify_repo(url: str, threshold: float = 0.4, top_k: int = 5, use_ensemble: bool = True):
+def classify_repo(url: str, threshold: float = 0.4, top_k: int = 10, use_ensemble: bool = True):
     data = fetch_repo_text(url)
     text = data["text"][:6000]  # cap for speed; increase if needed
     if not text:
@@ -159,7 +159,7 @@ def classify_repo(url: str, threshold: float = 0.4, top_k: int = 5, use_ensemble
     if use_ensemble:
         # Embedding similarity against richer label descriptions
         es = embedding_similarity_scores(text, SDG_DESCS)
-        scores = ensemble_scores(zs, es, alpha=0.6)  # bias slightly toward zero-shot
+        scores = ensemble_scores(zs, es, alpha=0.6) 
     else:
         scores = zs
 
@@ -180,8 +180,8 @@ def classify_repo(url: str, threshold: float = 0.4, top_k: int = 5, use_ensemble
 
 if __name__ == "__main__":
     # EXAMPLE:
-    test_url = "https://github.com/protontypes/open-sustainable-technology"  
-    result = classify_repo(test_url, threshold=0.4, top_k=5, use_ensemble=True)
+    test_url = "https://github.com/sustainlab-group/sustainbench"  
+    result = classify_repo(test_url, threshold=0.4, use_ensemble=True)
     print("Repository:", result["repo"])
     print("Predicted SDGs (name, score):")
     for name, sc in result["predictions"]:
