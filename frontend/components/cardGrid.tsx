@@ -109,17 +109,20 @@ const CardGrid = ({ sdgPredictions }: CardGridProps) => {
   const predictionsArray: SDGValue[] = Array.isArray(sdgPredictions)
     ? sdgPredictions
     : (Object.values(sdgPredictions ?? {})
-        .filter((item) => item?.sdg && item.prediction > 0)
+        .filter((item): item is SDGValue => {
+          // Type guard to ensure item is SDGValue
+          return item.sdg != null && item.prediction > 0;
+        })
         .map((item) => ({
           prediction: item.prediction,
           sdg: {
-            "@type": item.sdg["@type"] || "sdg",
-            code: item.sdg.code || "",
-            icon: item.sdg.icon || "",
-            id: item.sdg.id || "",
-            label: item.sdg.label || "",
-            name: item.sdg.name || "",
-            type: item.sdg.type || "Goal",
+            "@type": item.sdg?.["@type"] || "sdg",
+            code: item.sdg?.code || "",
+            icon: item.sdg?.icon || "",
+            id: item.sdg?.id || "",
+            label: item.sdg?.label || "",
+            name: item.sdg?.name || "",
+            type: item.sdg?.type || "Goal",
           },
         })) as SDGValue[]);
 
@@ -132,8 +135,8 @@ const CardGrid = ({ sdgPredictions }: CardGridProps) => {
         .sort((a, b) => b.prediction - a.prediction)
         .map((item) => (
           <SDGCard
-            key={item.sdg.code}
-            sdgKey={`SDG ${item.sdg.code}: ${item.sdg.name}`}
+            key={item.sdg?.code}
+            sdgKey={`SDG ${item.sdg?.code}: ${item.sdg?.name}`}
             confidence={item.prediction}
           />
         ))}

@@ -3,20 +3,7 @@ import { ImCross } from "react-icons/im";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { IoAdd } from "react-icons/io5";
 import SDG from "./sdg";
-
-type SDGValue = {
-  prediction: number;
-  sdg?: {
-    "@type"?: string;
-    code?: string;
-    icon?: string;
-    id?: string;
-    label?: string;
-    name?: string;
-    type?: string;
-    [k: string]: any;
-  };
-};
+import { SDGValue } from "@/types/main";
 
 type EditModalProps = {
   editableResults: Record<string, SDGValue>;

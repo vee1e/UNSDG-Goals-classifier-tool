@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { MdDone } from "react-icons/md";
 import CardGrid from "./cardGrid";
-// import SummaryCard from "./summaryCard";
 import RawResults from "./rawResults";
 import EditModal from "./editModal";
 import { SDGValue, ResultsData } from "@/types/main";
@@ -15,7 +14,7 @@ type ResultsProps = {
 const Results = ({ results, setResults, setError }: ResultsProps) => {
   // editableResults holds the full SDGValue objects (not just numbers)
   const [editableResults, setEditableResults] = useState<
-    Record<string, SDGValue> | undefined
+    Record<string, SDGValue>
   >({});
 
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
@@ -47,15 +46,15 @@ const Results = ({ results, setResults, setError }: ResultsProps) => {
     // Open modal with current SDG predictions for editing
     if (results?.predictions) {
       const normalized: Record<string, SDGValue> = {};
-      Object.entries(results.predictions as Record<string, number | SDGValue>).forEach(
-        ([k, v]) => {
-          if (typeof v === "number") {
-            normalized[k] = { prediction: v };
-          } else {
-            normalized[k] = v as SDGValue;
-          }
+      Object.entries(
+        results.predictions as Record<string, number | SDGValue>
+      ).forEach(([k, v]) => {
+        if (typeof v === "number") {
+          normalized[k] = { prediction: v };
+        } else {
+          normalized[k] = v as SDGValue;
         }
-      );
+      });
       setEditableResults(normalized);
       setIsModalOpen(true);
     }
@@ -67,7 +66,10 @@ const Results = ({ results, setResults, setError }: ResultsProps) => {
       return;
     }
     try {
-      const predictions = results.predictions as Record<string, number | SDGValue>;
+      const predictions = results.predictions as Record<
+        string,
+        number | SDGValue
+      >;
       const unsdgData = {
         sdg_analysis: {
           analyzed_at: new Date().toISOString(),
@@ -156,8 +158,6 @@ const Results = ({ results, setResults, setError }: ResultsProps) => {
 
             {results ? (
               <>
-                {/* Summary Card */}
-                {/* <SummaryCard predictions={results?.predictions} /> */}
                 {/* SDG Cards Grid */}
                 <CardGrid sdgPredictions={results.predictions} />
                 {/* Action Buttons */}
@@ -189,7 +189,7 @@ const Results = ({ results, setResults, setError }: ResultsProps) => {
       {isModalOpen && (
         <EditModal
           // EditModal expects Record<string, SDGValue>, ensure we pass an object
-          editableResults={editableResults ?? {}}
+          editableResults={editableResults || {}}
           setEditableResults={setEditableResults}
           setIsModalOpen={setIsModalOpen}
           saveEditedResults={saveEditedResults}
