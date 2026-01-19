@@ -168,7 +168,7 @@ const MainScreen: React.FC<{
                 id="projectDescription"
                 value={projectDescription}
                 onChange={(e) => setProjectDescription(e.target.value)}
-                placeholder="Please write a description of your project's relevance to the UN SDGs"
+                placeholder="Please write a description of your project's relevance to the UN SDGs in around 100 to 120 words."
                 required
                 rows={12}
                 className="w-full bg-white px-6 py-4 rounded-2xl border border-gray-200 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"

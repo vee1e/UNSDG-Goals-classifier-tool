@@ -46,7 +46,8 @@ def classify():
     # print("Raw predictions:", result.get("predictions", []))
 
     preds = result.get("predictions", []) or []
-    filtered_predictions = [p for p in preds if (p.get("prediction") or 0) > 0.4]
+    print("Predictions before filtering:", preds)
+    filtered_predictions = [p for p in preds if (p.get("prediction") or 0) > 0.1]
 
 
     return jsonify({
