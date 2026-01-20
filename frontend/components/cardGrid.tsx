@@ -1,6 +1,12 @@
 import React from "react";
 import { SDGValue } from "@/types/main";
 
+/*
+CardGrid Component
+- Displays a grid of SDG cards based on predictions
+- Each card shows SDG number, name, confidence score, and a progress bar
+*/
+
 type SDGCardProps = {
   sdgKey: string;
   confidence: number;
@@ -14,16 +20,13 @@ type CardGridProps = {
 };
 
 const SDGCard = ({ sdgKey, confidence }: SDGCardProps) => {
-  // Extract SDG number and name
   const sdgMatch = sdgKey.match(/SDG (\d+): (.+)/);
   const sdgNumber = sdgMatch ? sdgMatch[1] : "";
   const sdgName = sdgMatch ? sdgMatch[2] : sdgKey;
 
-  // Calculate confidence score and percentage
   const confidenceScore = Number(confidence);
   const confidencePercentage = Math.round(confidenceScore * 100);
 
-  // Determine confidence level and colors
   let confidenceLevel = "";
   let colorClasses = "";
   let bgColor = "";
@@ -46,7 +49,6 @@ const SDGCard = ({ sdgKey, confidence }: SDGCardProps) => {
     <div
       className={`${bgColor} ${colorClasses} border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200`}
     >
-      {/* SDG Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">
           <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
@@ -61,8 +63,8 @@ const SDGCard = ({ sdgKey, confidence }: SDGCardProps) => {
                 confidenceLevel === "High"
                   ? "bg-green-100 text-green-800"
                   : confidenceLevel === "Medium"
-                  ? "bg-yellow-100 text-yellow-800"
-                  : "bg-red-100 text-red-800"
+                    ? "bg-yellow-100 text-yellow-800"
+                    : "bg-red-100 text-red-800"
               }`}
             >
               {confidenceLevel} Match
@@ -76,12 +78,10 @@ const SDGCard = ({ sdgKey, confidence }: SDGCardProps) => {
         </div>
       </div>
 
-      {/* SDG Name */}
       <h5 className="font-medium text-gray-700 mb-3 leading-tight line-clamp-2">
         {sdgName}
       </h5>
 
-      {/* Progress Bar */}
       <div className="space-y-2">
         <div className="flex justify-between text-sm text-gray-600">
           <span>Confidence Score</span>
@@ -93,8 +93,8 @@ const SDGCard = ({ sdgKey, confidence }: SDGCardProps) => {
               confidenceLevel === "High"
                 ? "bg-green-500"
                 : confidenceLevel === "Medium"
-                ? "bg-yellow-500"
-                : "bg-red-500"
+                  ? "bg-yellow-500"
+                  : "bg-red-500"
             }`}
             style={{ width: `${confidencePercentage}%` }}
           ></div>
@@ -105,12 +105,10 @@ const SDGCard = ({ sdgKey, confidence }: SDGCardProps) => {
 };
 
 const CardGrid = ({ sdgPredictions }: CardGridProps) => {
-  // Convert object to array if needed
   const predictionsArray: SDGValue[] = Array.isArray(sdgPredictions)
     ? sdgPredictions
     : (Object.values(sdgPredictions ?? {})
         .filter((item): item is SDGValue => {
-          // Type guard to ensure item is SDGValue
           return item.sdg != null && item.prediction > 0;
         })
         .map((item) => ({
@@ -128,9 +126,6 @@ const CardGrid = ({ sdgPredictions }: CardGridProps) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {/* Left container */}
-      {/* A visual representation probably a Pie Chart or Donut Chart */}
-      {/* Right container */}
       {predictionsArray
         .sort((a, b) => b.prediction - a.prediction)
         .map((item) => (

@@ -1,9 +1,11 @@
+import uuid
+import json
 from flask import Flask, jsonify, request, abort
 from flask_cors import CORS
 from classify import main as classify_text
-from datetime import datetime
+from datetime import datetime, UTC
 from aurora_api import main as aurora_main
-from werkzeug.utils import secure_filename
+
 
 app = Flask(__name__)
 CORS(app)
@@ -46,9 +48,31 @@ def classify():
     # print("Raw predictions:", result.get("predictions", []))
 
     preds = result.get("predictions", []) or []
-    print("Predictions before filtering:", preds)
+    # print("Predictions before filtering:", preds)
     filtered_predictions = [p for p in preds if (p.get("prediction") or 0) > 0.1]
 
+    # Read existing data or create new array
+    try:
+        with open("data/predictions.json", "r") as f:
+            all_predictions = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        all_predictions = []
+    
+    # Create new entry
+    random_uuid = uuid.uuid4()
+    log_entry = {
+        "id": str(random_uuid),
+        "timestamp": datetime.now(UTC).isoformat(),
+        "projectName": projectName,
+        "projectUrl": projectUrl,
+        "projectDescription": projectDescription,
+        "predictions": filtered_predictions
+    }
+    
+    # Append and write back
+    all_predictions.append(log_entry)
+    with open("data/predictions.json", "w") as f:
+        json.dump(all_predictions, f, indent=2)
 
     return jsonify({
         "projectName": projectName,

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "54b47b89-6657-454f-9364-499ba5fd1098",
+    "timestamp": "2026-01-20T17:36:50.953782+00:00",
+    "projectName": "Aam Digital",
+    "projectUrl": "https://www.github.com/Aam-Digital/ndb-core",
+    "projectDescription": "Aam Digital is an open source, easy-to-use case management software for social sector organizations. We exist to improve the effectiveness, transparency and impact of work at the last mile by social workers, teachers and others. Their positive impact on the people they support always comes first. To really help them in their work, it\u2019s essential for us to work closely with our users and look at the safety, environment and (side) effects of our software.\n\nAam Digital is committed to implementing  the \u201cDigital Principles for Development\u201d, the best practices for tech in international development. As our \u201cindustry standard\u201d initiated by players like UNICEF, UNDP, SIDA, WHO and USAID and a community of like-minded innovative ventures, these principles help us do the right thing. ",
+    "predictions": [
+      {
+        "prediction": 0.117522962,
+        "sdg": {
+          "@type": "sdg",
+          "id": "http://metadata.un.org/sdg/4",
+          "label": "Goal 4",
+          "code": "4",
+          "name": "Quality Education",
+          "type": "Goal",
+          "icon": "https://aurora-sdg-classifier.uni-due.de/resources/sdg_icon_4.png"
+        }
+      },
+      {
+        "prediction": 0.254236162,
+        "sdg": {
+          "@type": "sdg",
+          "id": "http://metadata.un.org/sdg/8",
+          "label": "Goal 8",
+          "code": "8",
+          "name": "Decent work and economic growth",
+          "type": "Goal",
+          "icon": "https://aurora-sdg-classifier.uni-due.de/resources/sdg_icon_8.png"
+        }
+      },
+      {
+        "prediction": 0.311936319,
+        "sdg": {
+          "@type": "sdg",
+          "id": "http://metadata.un.org/sdg/9",
+          "label": "Goal 9",
+          "code": "9",
+          "name": "Industry, innovation and infrastructure",
+          "type": "Goal",
+          "icon": "https://aurora-sdg-classifier.uni-due.de/resources/sdg_icon_9.png"
+        }
+      },
+      {
+        "prediction": 0.110184133,
+        "sdg": {
+          "@type": "sdg",
+          "id": "http://metadata.un.org/sdg/16",
+          "label": "Goal 16",
+          "code": "16",
+          "name": "Peace, Justice and strong institutions",
+          "type": "Goal",
+          "icon": "https://aurora-sdg-classifier.uni-due.de/resources/sdg_icon_16.png"
+        }
+      }
+    ]
+  },
+  {
+    "id": "ebc47e43-d83c-423f-87bd-f77b49b3e6e9",
+    "timestamp": "2026-01-20T17:37:33.524786+00:00",
+    "projectName": "p5.js",
+    "projectUrl": "https://github.com/processing/p5.js",
+    "projectDescription": "p5.js is a friendly tool for learning to code and make art. It is a free and open-source JavaScript library built by an inclusive, nurturing community. p5.js welcomes artists, designers, beginners, educators, and anyone else!\n\np5.js prioritizes accessibility, inclusivity, community, and joy. It makes sketching with code as intuitive as sketching in a notebook. p5.js supports audio-visual, interactive, and experimental works for the web. It is accessible in many languages and has expansive documentation with visual examples. You can start coding right now in the web editor, and there are lots of tutorials to help. You can also expand p5.js with many community-created libraries. p5.js is always looking for contributors and appreciates involvement in all forms.",
+    "predictions": [
+      {
+        "prediction": 0.828313172,
+        "sdg": {
+          "@type": "sdg",
+          "id": "http://metadata.un.org/sdg/4",
+          "label": "Goal 4",
+          "code": "4",
+          "name": "Quality Education",
+          "type": "Goal",
+          "icon": "https://aurora-sdg-classifier.uni-due.de/resources/sdg_icon_4.png"
+        }
+      }
+    ]
+  }
+]

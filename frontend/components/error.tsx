@@ -2,6 +2,13 @@ import React from "react";
 import { RiErrorWarningFill } from "react-icons/ri";
 import { ErrorProps } from "@/types/main";
 
+/*
+Error Component
+- Displays an error message when analysis fails
+- Shows a warning icon, error details, and a "Try Again" button
+
+*/
+
 const Error: React.FC<ErrorProps> = ({ error, setError, setResults }) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br">

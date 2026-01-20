@@ -10,10 +10,11 @@ import { ResultsData } from "@/types/main";
  * Main Application Component - UN SDG Advocate
  *
  * Flow:
- * 1. User enters GitHub repository URL, problem statement, solution approach, target audience and long term goal
+ * 1. User enters Project Name, GitHub repository URL and project SDG relevance description
  * 2. The data is then sent to Flask backend for analysis
  * 4. Results show SDG predictions with confidence levels
  * 5. User can edit predictions via modal interface
+ * 6. Edited results are saved and stored in state
  */
 export default function Home() {
   const [results, setResults] = useState<ResultsData | null>(null);
@@ -22,17 +23,14 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br">
       {results ? (
-        // Results Screen
         <Results
           results={results}
           setResults={setResults}
           setError={setError}
         />
       ) : error ? (
-        // Error Screen
         <Error error={error} setError={setError} setResults={setResults} />
       ) : (
-        // Main Content
         <MainScreen setResults={setResults} />
       )}
     </div>

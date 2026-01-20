@@ -6,3 +6,4 @@ numpy
 accelerate
 flask
 flask-cors
+Flask-UUID

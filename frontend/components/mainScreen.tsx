@@ -2,11 +2,17 @@ import React, { useState } from "react";
 import Goals from "@/assets/UNSDG Goals Image.jpg";
 import Image from "next/image";
 import axios from "axios";
-// import { SlCloudUpload } from "react-icons/sl";
 import { TiTick } from "react-icons/ti";
 import { ImCross } from "react-icons/im";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { ResultsData } from "@/types/main";
+
+/*
+MainScreen Component
+- Renders the main screen with project input form
+- Handles form submission and API interaction
+
+*/
 
 const MainScreen: React.FC<{
   setResults: React.Dispatch<React.SetStateAction<ResultsData | null>>;
@@ -79,11 +85,12 @@ const MainScreen: React.FC<{
       setIsUploading(false);
     }
   };
+
   return (
     <div>
       <div className="container mx-auto px-12 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
+          {/* Main Content */}
           <div className="space-y-8">
             <div className="space-y-6">
               <h1 className="text-6xl font-bold text-black leading-tight">

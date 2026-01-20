@@ -5,6 +5,12 @@ import RawResults from "./rawResults";
 import EditModal from "./editModal";
 import { SDGValue, ResultsData } from "@/types/main";
 
+/*
+Results Component
+- Displays the results of the SDG analysis
+- Shows SDG cards, allows editing via modal, and downloading results
+*/
+
 type ResultsProps = {
   results: ResultsData | null;
   setResults: (value: ResultsData | null) => void;
@@ -12,7 +18,6 @@ type ResultsProps = {
 };
 
 const Results = ({ results, setResults, setError }: ResultsProps) => {
-  // editableResults holds the full SDGValue objects 
   const [editableResults, setEditableResults] = useState<
     Record<string, SDGValue>
   >({});
@@ -26,7 +31,6 @@ const Results = ({ results, setResults, setError }: ResultsProps) => {
       : Number((v as SDGValue)?.prediction ?? 0);
 
   const saveEditedResults = () => {
-    // Update the results with edited values
     if (results) {
       setResults({
         ...results,
@@ -36,18 +40,16 @@ const Results = ({ results, setResults, setError }: ResultsProps) => {
     setIsModalOpen(false);
     setSaveMessage("SDG predictions updated successfully!");
 
-    // Clear the message after 3 seconds
     setTimeout(() => {
       setSaveMessage(null);
     }, 3000);
   };
 
   const handleChanges = () => {
-    // Open modal with current SDG predictions for editing
     if (results?.predictions) {
       const normalized: Record<string, SDGValue> = {};
       Object.entries(
-        results.predictions as Record<string, number | SDGValue>
+        results.predictions as Record<string, number | SDGValue>,
       ).forEach(([k, v]) => {
         if (typeof v === "number") {
           normalized[k] = { prediction: v };
@@ -79,19 +81,18 @@ const Results = ({ results, setResults, setError }: ResultsProps) => {
           summary: {
             total_sdgs: Object.keys(predictions).length,
             high_confidence: Object.values(predictions).filter(
-              (score) => getScore(score) >= 0.7
+              (score) => getScore(score) >= 0.7,
             ).length,
             medium_confidence: Object.values(predictions).filter(
-              (score) => getScore(score) >= 0.4 && getScore(score) < 0.7
+              (score) => getScore(score) >= 0.4 && getScore(score) < 0.7,
             ).length,
             low_confidence: Object.values(predictions).filter(
-              (score) => getScore(score) < 0.4
+              (score) => getScore(score) < 0.4,
             ).length,
           },
         },
       };
 
-      // Convert to JSON string and create a Blob for download
       const jsonString = JSON.stringify(unsdgData, null, 2);
       const blob = new Blob([jsonString], { type: "application/json" });
       const url = URL.createObjectURL(blob);
@@ -188,7 +189,6 @@ const Results = ({ results, setResults, setError }: ResultsProps) => {
       {/* Edit SDG Predictions Modal */}
       {isModalOpen && (
         <EditModal
-          // EditModal expects Record<string, SDGValue>, ensure we pass an object
           editableResults={editableResults || {}}
           setEditableResults={setEditableResults}
           setIsModalOpen={setIsModalOpen}

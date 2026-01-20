@@ -5,6 +5,14 @@ import { IoAdd } from "react-icons/io5";
 import SDG from "./sdg";
 import { SDGValue } from "@/types/main";
 
+/*
+EditModal Component
+- Modal interface for editing SDG predictions
+- Allows adding new SDG goals and adjusting confidence scores
+- Displays current editable SDG predictions with options to remove or modify
+- Save changes or cancel edits
+*/
+
 type EditModalProps = {
   editableResults: Record<string, SDGValue>;
   setEditableResults: React.Dispatch<
@@ -40,10 +48,8 @@ const EditModal: React.FC<EditModalProps> = ({
   const addNewSDG = () => {
     if (newSDGNumber && newSDGName) {
       const sdgKey = Object.keys(editableResults).length;
-
-      // Check if SDG already exists
       const exists = Object.values(editableResults).some(
-        (value) => String(value?.sdg?.code) === String(newSDGNumber)
+        (value) => String(value?.sdg?.code) === String(newSDGNumber),
       );
 
       if (exists) {
@@ -69,7 +75,6 @@ const EditModal: React.FC<EditModalProps> = ({
         [sdgKey]: newValue,
       }));
 
-      // Reset form
       setNewSDGNumber("");
       setNewSDGName("");
       setNewSDGScore(1.0);
@@ -87,7 +92,7 @@ const EditModal: React.FC<EditModalProps> = ({
   const handleSDGSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedNumber = e.target.value;
     setNewSDGNumber(selectedNumber);
-    // Automatically fill SDG name when number is selected
+
     if (selectedNumber) {
       const sdgNumber = parseInt(selectedNumber) as keyof typeof SDG;
       if (SDG[sdgNumber]) {
@@ -101,7 +106,6 @@ const EditModal: React.FC<EditModalProps> = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
-        {/* Modal Header */}
         <div className="bg-purple-600 text-white p-6">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold">Edit SDG Predictions</h2>
@@ -114,7 +118,6 @@ const EditModal: React.FC<EditModalProps> = ({
           </div>
         </div>
 
-        {/* Modal Content */}
         <div className="p-6 overflow-y-auto max-h-[60vh]">
           <div className="flex justify-between items-center mb-4">
             <p className="text-gray-600">
@@ -129,7 +132,6 @@ const EditModal: React.FC<EditModalProps> = ({
             </button>
           </div>
 
-          {/* Add New SDG Form */}
           {showAddForm && (
             <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-4">
               <h4 className="font-semibold text-gray-800 mb-3">
@@ -204,7 +206,7 @@ const EditModal: React.FC<EditModalProps> = ({
             {Object.entries(editableResults)
               .sort(
                 ([, a], [, b]) =>
-                  Number(b.prediction ?? 0) - Number(a.prediction ?? 0)
+                  Number(b.prediction ?? 0) - Number(a.prediction ?? 0),
               )
               .map(([sdgKey, value]) => {
                 const confidence = value.prediction ?? 0;
@@ -218,12 +220,10 @@ const EditModal: React.FC<EditModalProps> = ({
                     className="border rounded-lg p-4 hover:bg-gray-50 transition-colors"
                   >
                     <div className="flex items-center gap-4">
-                      {/* SDG Number */}
                       <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                         {sdgNumber}
                       </div>
 
-                      {/* SDG Info */}
                       <div className="flex-1 min-w-0">
                         <h4 className="font-semibold text-gray-800 text-sm">
                           SDG {sdgNumber}
@@ -236,7 +236,6 @@ const EditModal: React.FC<EditModalProps> = ({
                         </p>
                       </div>
 
-                      {/* Confidence Input */}
                       <div className="flex items-center gap-2 flex-shrink-0">
                         <label className="text-sm text-gray-600 font-medium">
                           Score:
@@ -263,7 +262,6 @@ const EditModal: React.FC<EditModalProps> = ({
                       </div>
                     </div>
 
-                    {/* Progress Bar */}
                     <div className="mt-3 ml-16">
                       <div className="w-full bg-gray-200 rounded-full h-2">
                         <div
@@ -280,7 +278,6 @@ const EditModal: React.FC<EditModalProps> = ({
           </div>
         </div>
 
-        {/* Modal Footer */}
         <div className="bg-gray-50 px-6 py-4 flex justify-end gap-3">
           <button
             onClick={() => setIsModalOpen(false)}

@@ -1,6 +1,12 @@
 import React from "react";
 import { RawResultsProps } from "@/types/main";
 
+/*
+RawResults Component
+- Displays raw JSON results from SDG analysis
+- Useful for debugging and transparency
+*/
+
 const RawResults: React.FC<RawResultsProps> = ({ results }) => {
   return (
     <div className="bg-white rounded-xl p-6 shadow-lg">

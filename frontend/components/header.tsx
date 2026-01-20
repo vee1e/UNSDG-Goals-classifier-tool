@@ -2,6 +2,11 @@ import React from "react";
 import Image from "next/image";
 import Logo from "@/assets/GW Open Source Program Office.png";
 
+/*
+Header Component
+- Displays the application header with logo
+*/
+
 const Header = () => {
   return (
     <header className="p-6">
