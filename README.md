@@ -14,7 +14,7 @@ An AI-powered tool that analyzes GitHub repositories and determines their alignm
 ## Architecture
 
 - **Frontend**: Next.js 14+ with TypeScript, Tailwind CSS, and React Icons
-- **Backend**: Flask API with AI classification using sentence-transformers
+- **Backend**: Flask API with Aurora SDG API classifier
 - **Integration**: GitHub API for pulling repository information
 
 ## Quick Start
@@ -35,8 +35,10 @@ cd UNSDG-advocate
 
 ```bash
 cd backend
+python3 -m venv myvenv
+source ./myvenv/bin/activate
 pip install -r requirements.txt
-python app.py
+python3 app.py
 ```
 
 ### 3. Frontend Setup
@@ -73,41 +75,41 @@ The tool generates a `unsdg.json` file containing:
       "SDG 1": 0.85,
       "SDG 3": 0.72,
       "SDG 4": 0.91
-    },
-    "summary": {
-      "total_sdgs": 3,
-      "high_confidence": 2,
-      "medium_confidence": 1,
-      "low_confidence": 0
     }
   }
 }
 ```
 
-
-
 ## API Endpoints
 
 ### POST /api/classify
 
-Analyzes a GitHub repository for SDG alignment.
+Analyzes a GitHub repository and its description for SDG alignment using Aurora SDG API.
 
 **Request:**
 
-```json
-{
-  "url": "https://github.com/user/repository"
-}
-```
+- Project Name, Project Description and Github Url
 
 **Response:**
 
 ```json
 {
-  "sdg_predictions": {
-    "SDG 1": 0.85,
-    "SDG 3": 0.72
-  }
+  "projectName": "XYZ",
+  "projectUrl": "https://github.com/user/repo",
+  "predictions": [
+    {
+      "prediction": 0.117522962,
+      "sdg": {
+        "@type": "sdg",
+        "id": "http://metadata.un.org/sdg/4",
+        "label": "Goal 4",
+        "code": "4",
+        "name": "Quality Education",
+        "type": "Goal",
+        "icon": "https://aurora-sdg-classifier.uni-due.de/resources/sdg_icon_4.png"
+      }
+    }
+  ]
 }
 ```
 

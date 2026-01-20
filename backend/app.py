@@ -2,7 +2,7 @@ import uuid
 import json
 from flask import Flask, jsonify, request, abort
 from flask_cors import CORS
-from classify import main as classify_text
+from classify import classify_text
 from datetime import datetime, UTC
 from aurora_api import main as aurora_main
 
