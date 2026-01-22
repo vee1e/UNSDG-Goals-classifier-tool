@@ -76,5 +76,62 @@
         }
       }
     ]
+  },
+  {
+    "id": "043fadfc-80cf-49c6-ba14-25cb2060f766",
+    "timestamp": "2026-01-22T16:24:44.740763+00:00",
+    "projectName": "Accessible Medical Records via Integrated Technologies",
+    "projectUrl": "https://github.com/PSMRI/AMRIT",
+    "projectDescription": "AMRIT (Accessible Medical Records via Integrated Technologies) is an open-source digital health platform developed by Piramal Swasthya Management and Research Institute (PSMRI) to advance accessible primary healthcare in India. This repository is the central hub for community-driven enhancements, issue tracking, and collaboration, inviting developers and healthcare enthusiasts alike to contribute to AMRIT's growth. Together, we\u2019re building a scalable, interoperable healthcare solution aimed at transforming primary care for millions.",
+    "predictions": [
+      {
+        "prediction": 0.104898982,
+        "sdg": {
+          "@type": "sdg",
+          "id": "http://metadata.un.org/sdg/1",
+          "label": "Goal 1",
+          "code": "1",
+          "name": "No poverty",
+          "type": "Goal",
+          "icon": "https://aurora-sdg-classifier.uni-due.de/resources/sdg_icon_1.png"
+        }
+      },
+      {
+        "prediction": 0.10833025,
+        "sdg": {
+          "@type": "sdg",
+          "id": "http://metadata.un.org/sdg/3",
+          "label": "Goal 3",
+          "code": "3",
+          "name": "Good health and well-being",
+          "type": "Goal",
+          "icon": "https://aurora-sdg-classifier.uni-due.de/resources/sdg_icon_3.png"
+        }
+      },
+      {
+        "prediction": 0.159250841,
+        "sdg": {
+          "@type": "sdg",
+          "id": "http://metadata.un.org/sdg/9",
+          "label": "Goal 9",
+          "code": "9",
+          "name": "Industry, innovation and infrastructure",
+          "type": "Goal",
+          "icon": "https://aurora-sdg-classifier.uni-due.de/resources/sdg_icon_9.png"
+        }
+      },
+      {
+        "prediction": 0.35642004,
+        "sdg": {
+          "@type": "sdg",
+          "id": "http://metadata.un.org/sdg/10",
+          "label": "Goal 10",
+          "code": "10",
+          "name": "Reduced inequalities",
+          "type": "Goal",
+          "icon": "https://aurora-sdg-classifier.uni-due.de/resources/sdg_icon_10.png"
+        }
+      }
+    ]
   }
 ]

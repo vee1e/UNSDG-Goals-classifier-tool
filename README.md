@@ -21,8 +21,8 @@ An AI-powered tool that analyzes GitHub repositories and determines their alignm
 
 ### Prerequisites
 
-- Node.js 18+ and npm
-- Python 3.8+
+- Node.js 18+ and npm (Download link: https://nodejs.org/en/download/)
+- Python 3.8+ (Download link: https://www.python.org/downloads/)
 
 ### 1. Clone and Setup
 
@@ -31,7 +31,19 @@ git clone <repository-url>
 cd UNSDG-advocate
 ```
 
-### 2. Backend Setup
+### 2. Bash script approach
+
+- Make sure you have all of your prerequisites installed in your local computer like Node.js and Python
+- Make sure you are inside the folder.
+
+```bash
+chmod +x ./bash.sh
+./bash.sh
+```
+
+### 3. Manual approach
+
+### 3.1. Backend Setup
 
 ```bash
 cd backend
@@ -41,7 +53,7 @@ pip install -r requirements.txt
 python3 app.py
 ```
 
-### 3. Frontend Setup
+### 3.2. Frontend Setup
 
 ```bash
 cd frontend
@@ -110,22 +122,6 @@ Analyzes a GitHub repository and its description for SDG alignment using Aurora 
       }
     }
   ]
-}
-```
-
-### POST /api/create-pr
-
-Creates a pull request with SDG analysis results.
-
-**Request:**
-
-```json
-{
-  "owner": "username",
-  "repo": "repository",
-  "content": "JSON content",
-  "message": "Add UN SDG analysis results",
-  "description": "PR description"
 }
 ```
 
