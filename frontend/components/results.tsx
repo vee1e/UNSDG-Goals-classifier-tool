@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { MdDone } from "react-icons/md";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import CardGrid from "./cardGrid";
 import RawResults from "./rawResults";
 import EditModal from "./editModal";
 import { SDGValue, ResultsData } from "@/types/main";
+import axios from "axios";
 
 /*
 Results Component
@@ -24,6 +26,63 @@ const Results = ({ results, setResults, setError }: ResultsProps) => {
 
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<string>("aurora");
+  const [isLoadingTab, setIsLoadingTab] = useState(false);
+
+  const handleTabChange = async (newTab: string) => {
+    if (newTab === activeTab || !results) return;
+
+    setIsLoadingTab(true);
+    setActiveTab(newTab);
+
+    const requestData = {
+      projectName:
+        localStorage.getItem("projectName") || results.projectName || "",
+      projectUrl:
+        localStorage.getItem("projectUrl") || results.projectUrl || "",
+      projectDescription:
+        localStorage.getItem("projectDescription") ||
+        results.projectDescription ||
+        "",
+    };
+
+    try {
+      const base = "http://127.0.0.1:5000/";
+      let endpoint = "";
+
+      switch (newTab) {
+        case "aurora":
+          endpoint = "api/classify_aurora";
+          break;
+        case "st-description":
+          endpoint = "api/classify_st_description";
+          break;
+        case "st-url":
+          endpoint = "api/classify_st_url";
+          break;
+        default:
+          endpoint = "api/classify_aurora";
+      }
+
+      const response = await axios.post(base + endpoint, requestData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.data) {
+        setResults({
+          ...results,
+          predictions: response.data.predictions,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching data for tab:", error);
+      setError("Failed to load data for selected model. Please try again.");
+    } finally {
+      setIsLoadingTab(false);
+    }
+  };
 
   const getScore = (v: number | SDGValue | null | undefined) =>
     typeof v === "number"
@@ -157,31 +216,100 @@ const Results = ({ results, setResults, setError }: ResultsProps) => {
               UN SDG Goals Analysis
             </h3>
 
-            {results ? (
-              <>
-                {/* SDG Cards Grid */}
-                <CardGrid sdgPredictions={results.predictions} />
-                {/* Action Buttons */}
-                <div className="flex justify-end mt-6">
+            {/* Vertical Tabs Layout */}
+            <div className="flex gap-6">
+              {/* Sidebar Navigation */}
+              <div className="w-64 flex-shrink-0">
+                <div className="bg-white rounded-xl shadow-lg p-2 space-y-1">
+                  <h4 className="text-sm font-semibold text-gray-600 px-4 py-2">
+                    Available Models
+                  </h4>
+
                   <button
-                    onClick={handleDownload}
-                    className="cursor-pointer mx-4 px-4 py-2 bg-white text-purple-600 border border-purple-600 rounded-md hover:bg-purple-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                    onClick={() => handleTabChange("aurora")}
+                    disabled={isLoadingTab}
+                    className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 relative ${
+                      activeTab === "aurora"
+                        ? "bg-purple-50 text-purple-700 font-semibold"
+                        : "text-gray-700 hover:bg-gray-50"
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
-                    <span className="flex items-center">
-                      Yes, Download SDG Analysis File
+                    {activeTab === "aurora" && (
+                      <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-8 bg-purple-600 rounded-r-full"></div>
+                    )}
+                    <span className="ml-2">Aurora Model</span>
+                  </button>
+
+                  <button
+                    onClick={() => handleTabChange("st-description")}
+                    disabled={isLoadingTab}
+                    className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 relative ${
+                      activeTab === "st-description"
+                        ? "bg-purple-50 text-purple-700 font-semibold"
+                        : "text-gray-700 hover:bg-gray-50"
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
+                  >
+                    {activeTab === "st-description" && (
+                      <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-8 bg-purple-600 rounded-r-full"></div>
+                    )}
+                    <span className="ml-2">
+                      Sentence Transformer Description
                     </span>
                   </button>
+
                   <button
-                    onClick={handleChanges}
-                    className="cursor-pointer px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors duration-200"
+                    onClick={() => handleTabChange("st-url")}
+                    disabled={isLoadingTab}
+                    className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 relative ${
+                      activeTab === "st-url"
+                        ? "bg-purple-50 text-purple-700 font-semibold"
+                        : "text-gray-700 hover:bg-gray-50"
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
-                    Maybe, we need some edits
+                    {activeTab === "st-url" && (
+                      <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-8 bg-purple-600 rounded-r-full"></div>
+                    )}
+                    <span className="ml-2">Sentence Transformer URL</span>
                   </button>
                 </div>
-              </>
-            ) : (
-              <RawResults results={results} />
-            )}
+              </div>
+
+              {/* Main Content Area */}
+              <div className="flex-1">
+                {isLoadingTab ? (
+                  <div className="flex items-center justify-center py-20">
+                    <AiOutlineLoading3Quarters className="animate-spin text-purple-600 text-4xl" />
+                    <span className="ml-3 text-gray-600">
+                      Loading model results...
+                    </span>
+                  </div>
+                ) : results ? (
+                  <>
+                    {/* SDG Cards Grid */}
+                    <CardGrid sdgPredictions={results.predictions} />
+                    {/* Action Buttons */}
+                    <div className="flex justify-end mt-6">
+                      <button
+                        onClick={handleDownload}
+                        className="cursor-pointer mx-4 px-4 py-2 bg-white text-purple-600 border border-purple-600 rounded-md hover:bg-purple-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                      >
+                        <span className="flex items-center">
+                          Yes, Download SDG Analysis File
+                        </span>
+                      </button>
+                      <button
+                        onClick={handleChanges}
+                        className="cursor-pointer px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors duration-200"
+                      >
+                        Maybe, we need some edits
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <RawResults results={results} />
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </main>

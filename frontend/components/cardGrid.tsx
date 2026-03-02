@@ -105,7 +105,6 @@ const SDGCard = ({ sdgKey, confidence }: SDGCardProps) => {
 };
 
 const CardGrid = ({ sdgPredictions }: CardGridProps) => {
-  console.log("Received :", sdgPredictions);
   const predictionsArray: SDGValue[] = Array.isArray(sdgPredictions)
     ? sdgPredictions
     : (Object.values(sdgPredictions ?? {})
@@ -123,13 +122,15 @@ const CardGrid = ({ sdgPredictions }: CardGridProps) => {
         .sort((a, b) => b.prediction - a.prediction)
         .map((item, index) => {
           // Handle both string and object formats for sdg
-          const sdgKey = typeof item.sdg === 'string' 
-            ? item.sdg 
-            : `SDG ${item.sdg?.code}: ${item.sdg?.name}`;
-          const sdgCode = typeof item.sdg === 'string'
-            ? item.sdg.match(/SDG (\d+)/)?.[1] || index.toString()
-            : item.sdg?.code || index.toString();
-          
+          const sdgKey =
+            typeof item.sdg === "string"
+              ? item.sdg
+              : `SDG ${item.sdg?.code}: ${item.sdg?.name}`;
+          const sdgCode =
+            typeof item.sdg === "string"
+              ? item.sdg.match(/SDG (\d+)/)?.[1] || index.toString()
+              : item.sdg?.code || index.toString();
+
           return (
             <SDGCard
               key={sdgCode}

@@ -14,6 +14,7 @@ export type SDGValue = {
 export type ResultsData = {
   projectUrl?: string;
   projectName?: string;
+  projectDescription?: string;
   predictions?: Record<string, SDGValue> | Record<string, number>;
   [key: string]: unknown;
 };

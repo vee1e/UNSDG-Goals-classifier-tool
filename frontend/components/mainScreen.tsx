@@ -53,11 +53,11 @@ const MainScreen: React.FC<{
       projectName: projectName,
       projectUrl: projectUrl,
       projectDescription: projectDescription,
-      // problemStatement: problemStatement,
-      // longTermGoal: longTermGoal,
-      // solutionApproach: solutionApproach,
-      // targetAudience: targetAudience,
     };
+
+    localStorage.setItem("projectDescription", projectDescription);
+    localStorage.setItem("projectName", projectName);
+    localStorage.setItem("projectUrl", projectUrl);
 
     try {
       setIsUploading(true);
@@ -81,7 +81,10 @@ const MainScreen: React.FC<{
       }
 
       console.log("API Response:", response.data);
-      setResults(response.data);
+      setResults({
+        ...response.data,
+        projectDescription: projectDescription,
+      });
     } catch (error) {
       console.error("Error:", error);
       setUploadMsg("Text Analyzing Failed. Please try again.");
