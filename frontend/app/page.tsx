@@ -20,6 +20,8 @@ export default function Home() {
   const [results, setResults] = useState<ResultsData | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  console.log("Current Results State:", results);
+
   return (
     <div className="min-h-screen bg-gradient-to-br">
       {results ? (

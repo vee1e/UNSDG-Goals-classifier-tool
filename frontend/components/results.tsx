@@ -64,7 +64,7 @@ const Results = ({ results, setResults, setError }: ResultsProps) => {
 
   const handleDownload = () => {
     if (!results?.predictions) {
-      setError("No SDG predictions available to create pull request.");
+      setError("No SDG predictions available.");
       return;
     }
     try {

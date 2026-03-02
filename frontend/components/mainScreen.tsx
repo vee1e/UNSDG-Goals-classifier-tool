@@ -63,11 +63,15 @@ const MainScreen: React.FC<{
       setIsUploading(true);
       setUploadMsg(null);
       const base = "http://127.0.0.1:5000/";
-      const response = await axios.post(base + "api/classify", finalizedData, {
-        headers: {
-          "Content-Type": "application/json",
+      const response = await axios.post(
+        base + "api/classify_aurora",
+        finalizedData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
-      });
+      );
 
       if (!response.statusText || response.statusText !== "OK") {
         throw new Error(response.data.error);

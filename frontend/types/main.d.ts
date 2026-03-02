@@ -1,6 +1,6 @@
 export type SDGValue = {
   prediction: number;
-  sdg?: {
+  sdg?: string | {
     "@type"?: string;
     code?: string;
     icon?: string;
