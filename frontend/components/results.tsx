@@ -5,8 +5,8 @@ import CardGrid from "./cardGrid";
 import RawResults from "./rawResults";
 import EditModal from "./editModal";
 import { SDGValue, ResultsData } from "@/types/main";
-import axios from "axios";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import { classifyByModel } from "@/services/api";
 /*
 Results Component
 - Displays the results of the SDG analysis
@@ -47,30 +47,35 @@ const Results = ({ results, setResults, setError }: ResultsProps) => {
     };
 
     try {
-      const base = "http://127.0.0.1:5000/";
-      let endpoint = "";
+      // const base = "http://127.0.0.1:5000/";
+      // let endpoint = "";
 
-      switch (newTab) {
-        case "aurora":
-          endpoint = "api/classify_aurora";
-          break;
-        case "st-description":
-          endpoint = "api/classify_st_description";
-          break;
-        case "st-url":
-          endpoint = "api/classify_st_url";
-          break;
-        default:
-          endpoint = "api/classify_aurora";
-      }
+      // switch (newTab) {
+      //   case "aurora":
+      //     endpoint = "api/classify_aurora";
+      //     break;
+      //   case "st-description":
+      //     endpoint = "api/classify_st_description";
+      //     break;
+      //   case "st-url":
+      //     endpoint = "api/classify_st_url";
+      //     break;
+      //   default:
+      //     endpoint = "api/classify_aurora";
+      // }
 
-      const response = await axios.post(base + endpoint, requestData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      // const response = await axios.post(base + endpoint, requestData, {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // });
 
-      if (response.data) {
+      const response = await classifyByModel(
+        newTab as "aurora" | "st-description" | "st-url",
+        requestData,
+      );
+
+      if (response) {
         setResults({
           ...results,
           predictions: response.data.predictions,

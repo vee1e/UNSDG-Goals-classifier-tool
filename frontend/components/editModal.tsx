@@ -3,7 +3,7 @@ import { ImCross } from "react-icons/im";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { IoAdd } from "react-icons/io5";
 import SDG from "./sdg";
-import { SDGValue } from "@/types/main";
+import { SDGValue, EditModalProps } from "@/types/main";
 
 /*
 EditModal Component
@@ -12,15 +12,6 @@ EditModal Component
 - Displays current editable SDG predictions with options to remove or modify
 - Save changes or cancel edits
 */
-
-type EditModalProps = {
-  editableResults: Record<string, SDGValue>;
-  setEditableResults: React.Dispatch<
-    React.SetStateAction<Record<string, SDGValue>>
-  >;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  saveEditedResults: () => void;
-};
 
 const EditModal: React.FC<EditModalProps> = ({
   editableResults,

@@ -1,23 +1,11 @@
 import React from "react";
-import { SDGValue } from "@/types/main";
+import { SDGValue, SDGCardProps, CardGridProps } from "@/types/main";
 
 /*
 CardGrid Component
 - Displays a grid of SDG cards based on predictions
 - Each card shows SDG number, name, confidence score, and a progress bar
 */
-
-type SDGCardProps = {
-  sdgKey: string;
-  confidence: number;
-};
-
-type CardGridProps = {
-  sdgPredictions?:
-    | SDGValue[]
-    | Record<string, SDGValue>
-    | Record<string, number>;
-};
 
 const SDGCard = ({ sdgKey, confidence }: SDGCardProps) => {
   const sdgMatch = sdgKey.match(/SDG (\d+): (.+)/);

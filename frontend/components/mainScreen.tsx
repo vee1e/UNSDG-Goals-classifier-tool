@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Goals from "@/assets/UNSDG Goals Image.jpg";
 import Image from "next/image";
-import axios from "axios";
 import { TiTick } from "react-icons/ti";
 import { ImCross } from "react-icons/im";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { ResultsData } from "@/types/main";
+import { sdgApi } from "@/services/api";
 
 /*
 MainScreen Component
@@ -62,29 +62,33 @@ const MainScreen: React.FC<{
     try {
       setIsUploading(true);
       setUploadMsg(null);
-      const base = "http://127.0.0.1:5000/";
-      const response = await axios.post(
-        base + "api/classify_aurora",
-        finalizedData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
 
-      if (!response.statusText || response.statusText !== "OK") {
-        throw new Error(response.data.error);
-      }
-      if (response.data && response.data.repo_url) {
+      const response = await sdgApi.classifyAurora(finalizedData);
+
+      if (response && response.repo_url) {
         setUploadMsg("Text Analyzing Successfully!");
       }
 
-      console.log("API Response:", response.data);
-      setResults({
-        ...response.data,
-        projectDescription: projectDescription,
-      });
+      // const base = "http://127.0.0.1:5000/";
+      // const response = await axios.post(
+      //   base + "api/classify_aurora",
+      //   finalizedData,
+      //   {
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //   },
+      // );
+
+      // if (!response.statusText || response.statusText !== "OK") {
+      //   throw new Error(response.data.error);
+      // }
+      // if (response.data && response.data.repo_url) {
+      //   setUploadMsg("Text Analyzing Successfully!");
+      // }
+
+      // console.log("API Response:", response.data);
+      setResults(response as ResultsData);
     } catch (error) {
       console.error("Error:", error);
       setUploadMsg("Text Analyzing Failed. Please try again.");
