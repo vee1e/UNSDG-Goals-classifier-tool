@@ -1,26 +1,6 @@
 import requests
 import json
-
-# SDG number to full name mapping (based on UN SDG official names)
-SDG_NAMES = {
-    "1": "No Poverty",
-    "2": "Zero Hunger",
-    "3": "Good Health and Well-being",
-    "4": "Quality Education",
-    "5": "Gender Equality",
-    "6": "Clean Water and Sanitation",
-    "7": "Affordable and Clean Energy",
-    "8": "Decent Work and Economic Growth",
-    "9": "Industry, Innovation and Infrastructure",
-    "10": "Reduced Inequalities",
-    "11": "Sustainable Cities and Communities",
-    "12": "Responsible Consumption and Production",
-    "13": "Climate Action",
-    "14": "Life Below Water",
-    "15": "Life on Land",
-    "16": "Peace, Justice and Strong Institutions",
-    "17": "Partnerships for the Goals"
-}
+from sdg_constants import SDG_LABELS_DICT as SDG_LABELS
 
 
 def main(text: str, project_name: str = None, project_url: str = None):
@@ -70,7 +50,7 @@ def main(text: str, project_name: str = None, project_url: str = None):
                         
                         if sdg_code:
                             # Get the full SDG name from our mapping
-                            sdg_full_name = SDG_NAMES.get(str(sdg_code), sdg_label or "")
+                            sdg_full_name = SDG_LABELS.get(str(sdg_code), sdg_label or "")
                             # Format as "SDG {number}: {name}"
                             sdg_name = f"SDG {sdg_code}: {sdg_full_name}"
                     
