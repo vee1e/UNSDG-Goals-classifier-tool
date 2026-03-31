@@ -83,3 +83,39 @@ body:
       value: CHAOSS
     validations:
       required: true
+
+  - type: textarea
+    id: ticket-governance-domain
+    attributes:
+      label: Domain
+      description: Enter the domain of the project.
+      value: Open Source Library
+    validations:
+      required: true
+
+  - type: textarea
+    id: ticket-technical-skills-required
+    attributes:
+      label: Technical Skills Required
+      description: List the technical skills required to work on this project.
+      value: Python, Next.js, Flask, Jupyter, Data Analysis, RESTFul API, CI/CD, GitHub Actions
+    validations:
+      required: true
+
+  - type: textarea
+    id: ticket-mentors
+    attributes:
+      label: Mentor(s)
+      description: Please tag relevant mentors for the ticket
+      value: David Lippert
+    validations:
+      required: true
+
+  - type: textarea
+    id: ticket-category
+    attributes:
+      label: Category
+      description: Choose the categories that best describe your ticket.
+      value: API, Deployment, Transformers,Data Science, Machine Learning, Documentation, Refactoring
+    validations:
+      required: true
