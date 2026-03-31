@@ -75,7 +75,7 @@ body:
     validations:
       required: true
 
-  - type: text
+  - type: textarea
     id: ticket-organisation
     attributes:
       label: Organisation Name
