@@ -40,7 +40,13 @@ const EditModal: React.FC<EditModalProps> = ({
     if (newSDGNumber && newSDGName) {
       const sdgKey = Object.keys(editableResults).length;
       const exists = Object.values(editableResults).some(
-        (value) => String(value?.sdg?.code) === String(newSDGNumber),
+        (value) => {
+          const sdgCode =
+            typeof value?.sdg === "string"
+              ? value.sdg.match(/\d+/)?.[0]
+              : value?.sdg?.code;
+          return String(sdgCode ?? "") === String(newSDGNumber);
+        },
       );
 
       if (exists) {
@@ -201,9 +207,18 @@ const EditModal: React.FC<EditModalProps> = ({
               )
               .map(([sdgKey, value]) => {
                 const confidence = value.prediction ?? 0;
+                const sdgMeta = typeof value.sdg === "string" ? null : value.sdg;
                 const sdgNumber =
-                  value?.sdg?.code ?? sdgKey.match(/SDG (\d+):/)?.[1] ?? "";
-                const sdgName = value?.sdg?.name ?? sdgKey;
+                  sdgMeta?.code ??
+                  (typeof value.sdg === "string"
+                    ? value.sdg.match(/\d+/)?.[0]
+                    : undefined) ??
+                  sdgKey.match(/SDG (\d+):/)?.[1] ??
+                  "";
+                const sdgName =
+                  sdgMeta?.name ??
+                  (typeof value.sdg === "string" ? value.sdg : undefined) ??
+                  sdgKey;
 
                 return (
                   <div

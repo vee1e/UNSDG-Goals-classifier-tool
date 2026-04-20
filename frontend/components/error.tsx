@@ -1,6 +1,6 @@
 import React from "react";
 import { RiErrorWarningFill } from "react-icons/ri";
-import { ErrorProps } from "@/types/main";
+import { useAppState } from "@/lib/appStateContext";
 
 /*
 Error Component
@@ -9,7 +9,9 @@ Error Component
 
 */
 
-const Error: React.FC<ErrorProps> = ({ error, setError, setResults }) => {
+const Error = () => {
+  const { error, setError, setResults } = useAppState();
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br">
       <div className="text-center space-y-6 max-w-md">
