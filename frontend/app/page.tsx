@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import Results from "@/components/results";
 import Error from "@/components/error";
 import MainScreen from "@/components/mainScreen";
-import { ResultsData } from "@/types/main";
+import { AppStateProvider, useAppState } from "@/lib/appStateContext";
 
 /**
  * Main Application Component - UN SDG Advocate
@@ -17,24 +16,21 @@ import { ResultsData } from "@/types/main";
  * 6. Edited results are saved and stored in state
  */
 export default function Home() {
-  const [results, setResults] = useState<ResultsData | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  return (
+    <AppStateProvider>
+      <HomeContent />
+    </AppStateProvider>
+  );
+}
+
+const HomeContent = () => {
+  const { results, error } = useAppState();
 
   console.log("Current Results State:", results);
 
   return (
     <div className="min-h-screen bg-gradient-to-br">
-      {results ? (
-        <Results
-          results={results}
-          setResults={setResults}
-          setError={setError}
-        />
-      ) : error ? (
-        <Error error={error} setError={setError} setResults={setResults} />
-      ) : (
-        <MainScreen setResults={setResults} />
-      )}
+      {results ? <Results /> : error ? <Error /> : <MainScreen />}
     </div>
   );
-}
+};

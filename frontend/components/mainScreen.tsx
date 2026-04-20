@@ -6,6 +6,7 @@ import { ImCross } from "react-icons/im";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { ResultsData } from "@/types/main";
 import { sdgApi } from "@/services/api";
+import { useAppState } from "@/lib/appStateContext";
 
 /*
 MainScreen Component
@@ -14,9 +15,8 @@ MainScreen Component
 
 */
 
-const MainScreen: React.FC<{
-  setResults: React.Dispatch<React.SetStateAction<ResultsData | null>>;
-}> = ({ setResults }) => {
+const MainScreen = () => {
+  const { setResults } = useAppState();
   const [isUploading, setIsUploading] = useState(false);
   const [uploadMsg, setUploadMsg] = useState<string | null>(null);
 

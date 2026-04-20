@@ -7,19 +7,15 @@ import EditModal from "./editModal";
 import { SDGValue, ResultsData } from "@/types/main";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { classifyByModel } from "@/services/api";
+import { useAppState } from "@/lib/appStateContext";
 /*
 Results Component
 - Displays the results of the SDG analysis
 - Shows SDG cards, allows editing via modal, and downloading results
 */
 
-type ResultsProps = {
-  results: ResultsData | null;
-  setResults: (value: ResultsData | null) => void;
-  setError: (value: string | null) => void;
-};
-
-const Results = ({ results, setResults, setError }: ResultsProps) => {
+const Results = () => {
+  const { results, setResults, setError } = useAppState();
   const [editableResults, setEditableResults] = useState<
     Record<string, SDGValue>
   >({});
