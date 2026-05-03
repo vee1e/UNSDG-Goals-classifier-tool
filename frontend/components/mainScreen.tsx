@@ -5,7 +5,7 @@ import { TiTick } from "react-icons/ti";
 import { ImCross } from "react-icons/im";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { ResultsData } from "@/types/main";
-import { sdgApi } from "@/services/api";
+import { sdgApi, getLastCacheMeta } from "@/services/api";
 
 /*
 MainScreen Component
@@ -88,7 +88,13 @@ const MainScreen: React.FC<{
       // }
 
       // console.log("API Response:", response.data);
-      setResults(response as ResultsData);
+      // Capture cache metadata and attach to results
+      const cacheMeta = getLastCacheMeta();
+      const resultsWithCache = {
+        ...response,
+        _cacheMeta: cacheMeta || undefined,
+      };
+      setResults(resultsWithCache as ResultsData);
     } catch (error) {
       console.error("Error:", error);
       setUploadMsg("Text Analyzing Failed. Please try again.");

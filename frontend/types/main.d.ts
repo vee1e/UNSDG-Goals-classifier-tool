@@ -13,11 +13,18 @@ export type SDGValue = {
       };
 };
 
+export type CacheMeta = {
+  cached: boolean;
+  cacheStatus: 'HIT' | 'MISS';
+  cacheAge: number; // seconds
+};
+
 export type ResultsData = {
   projectUrl?: string;
   projectName?: string;
   projectDescription?: string;
   predictions?: Record<string, SDGValue> | Record<string, number>;
+  _cacheMeta?: CacheMeta;
   [key: string]: unknown;
 };
 

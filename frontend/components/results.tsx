@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { MdDone } from "react-icons/md";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { BsLightningCharge, BsLightningChargeFill } from "react-icons/bs";
 import CardGrid from "./cardGrid";
 import RawResults from "./rawResults";
 import EditModal from "./editModal";
-import { SDGValue, ResultsData } from "@/types/main";
+import { SDGValue, ResultsData, CacheMeta } from "@/types/main";
 import { IoIosInformationCircleOutline } from "react-icons/io";
-import { classifyByModel } from "@/services/api";
+import { classifyByModel, getLastCacheMeta, clearCacheMeta } from "@/services/api";
 /*
 Results Component
 - Displays the results of the SDG analysis
@@ -19,6 +20,27 @@ type ResultsProps = {
   setError: (value: string | null) => void;
 };
 
+// Cache Status Indicator Component
+const CacheStatusIndicator = ({ cacheMeta }: { cacheMeta: CacheMeta | undefined }) => {
+  if (!cacheMeta) return null;
+  
+  if (cacheMeta.cacheStatus === 'HIT') {
+    return (
+      <div className="inline-flex items-center px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+        <BsLightningChargeFill className="w-4 h-4 mr-1" />
+        Cached result ({cacheMeta.cacheAge}s old)
+      </div>
+    );
+  }
+  
+  return (
+    <div className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+      <BsLightningCharge className="w-4 h-4 mr-1" />
+      Fresh analysis
+    </div>
+  );
+};
+
 const Results = ({ results, setResults, setError }: ResultsProps) => {
   const [editableResults, setEditableResults] = useState<
     Record<string, SDGValue>
@@ -28,6 +50,7 @@ const Results = ({ results, setResults, setError }: ResultsProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<string>("aurora");
   const [isLoadingTab, setIsLoadingTab] = useState(false);
+  const [cacheMeta, setCacheMeta] = useState<CacheMeta | undefined>(results?._cacheMeta);
 
   const handleTabChange = async (newTab: string) => {
     if (newTab === activeTab || !results) return;
@@ -76,6 +99,9 @@ const Results = ({ results, setResults, setError }: ResultsProps) => {
       );
 
       if (response) {
+        // Capture cache metadata
+        const meta = getLastCacheMeta();
+        setCacheMeta(meta || undefined);
         setResults(response as ResultsData);
       }
     } catch (error) {
@@ -203,14 +229,21 @@ const Results = ({ results, setResults, setError }: ResultsProps) => {
             </div>
           )}
 
-          {/* Repository URL */}
+          {/* Repository URL & Cache Status */}
           <div className="bg-white rounded-xl p-6 shadow-lg">
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
-              Analyzed Repository:
-            </h3>
-            <p className="text-purple-700 font-medium break-all">
-              {results?.projectUrl ?? "—"}
-            </p>
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                  Analyzed Repository:
+                </h3>
+                <p className="text-purple-700 font-medium break-all">
+                  {results?.projectUrl ?? "—"}
+                </p>
+              </div>
+              <div className="ml-4 flex-shrink-0">
+                <CacheStatusIndicator cacheMeta={cacheMeta} />
+              </div>
+            </div>
           </div>
           {/* Results Display */}
           <div className="space-y-6">
@@ -307,10 +340,13 @@ const Results = ({ results, setResults, setError }: ResultsProps) => {
               {/* Main Content Area */}
               <div className="flex-1">
                 {isLoadingTab ? (
-                  <div className="flex items-center justify-center py-20">
+                  <div className="flex flex-col items-center justify-center py-20">
                     <AiOutlineLoading3Quarters className="animate-spin text-purple-600 text-4xl" />
-                    <span className="ml-3 text-gray-600">
+                    <span className="mt-3 text-gray-600">
                       Loading model results...
+                    </span>
+                    <span className="mt-1 text-sm text-gray-400">
+                      Checking cache first
                     </span>
                   </div>
                 ) : results ? (
