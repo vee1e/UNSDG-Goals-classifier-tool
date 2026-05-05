@@ -124,32 +124,31 @@ def classify_st_url():
 
 
 
-     # 2. Sentence Transformer URL Model (GitHub URL-based)
+    # 2. Sentence Transformer URL Model (GitHub URL-based)
     print("\n===== RUNNING SENTENCE TRANSFORMER URL MODEL =====")
-    if projectUrl:
-        try:
-            st_url_result = classify_url(projectUrl)
+    if not projectUrl:
+        return jsonify({
+            'error': 'Project URL is required for URL-based classification'
+        }), 400
 
-            print("ST URL model completed successfully")
-        except ValueError as ve:
-            print(f"ST URL model invalid URL: {str(ve)}")
-            return jsonify({'error': str(ve)}), 400
-        except requests.exceptions.HTTPError as he:
-            print(f"ST URL model HTTP Error: {str(he)}")
-            return jsonify({
-                "error": f"Failed to fetch repository data. Please ensure the repository is public and exists. ({str(he)})",
-                "message": "Sentence Transformer URL model classification failed"
-            }), 400
-        except Exception as e:
-            print(f"ST URL model failed: {str(e)}")
-            return jsonify({
-                "error": str(e),
-                "message": "Sentence Transformer URL model classification failed"
-            }), 500
-    else:
-        st_url_result = {
-            "message": "No project URL provided, skipping URL-based classification"
-        }
+    try:
+        st_url_result = classify_url(projectUrl)
+        print("ST URL model completed successfully")
+    except ValueError as ve:
+        print(f"ST URL model invalid URL: {str(ve)}")
+        return jsonify({'error': str(ve)}), 400
+    except requests.exceptions.HTTPError as he:
+        print(f"ST URL model HTTP Error: {str(he)}")
+        return jsonify({
+            "error": f"Failed to fetch repository data. Please ensure the repository is public and exists. ({str(he)})",
+            "message": "Sentence Transformer URL model classification failed"
+        }), 400
+    except Exception as e:
+        print(f"ST URL model failed: {str(e)}")
+        return jsonify({
+            "error": str(e),
+            "message": "Sentence Transformer URL model classification failed"
+        }), 500
 
     preds = [
         {"sdg": name, "prediction": score}
@@ -157,10 +156,10 @@ def classify_st_url():
     ]
     filtered_predictions = [p for p in preds if p.get("prediction", 0) > 0.4]
     return jsonify({
-            "projectName": projectName,
-            "projectUrl": projectUrl,
-            "predictions": filtered_predictions,
-        }), 200
+        "projectName": projectName,
+        "projectUrl": projectUrl,
+        "predictions": filtered_predictions,
+    }), 200
 
 @app.route("/api/osdg_api", methods=["POST"])
 def osdg_external_api():
